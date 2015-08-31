@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+<!--    <c:forEach items="#{menuController.opcionMenuList}" var="item">
+
+        <p:panelMenu  style="width: 175px; font-size: small ">
+            <p:submenu label="#{item.opcNombreOpcion}">
+
+            </p:submenu>
+        </p:panelMenu>
+
+    </c:forEach>-->
+
+    
+         <h:form>
+         <p:panelMenu style="width:185px; font-size: 12px">
+              
+                <p:submenu label="Seguridades">
+                    <p:submenu label="Mantenimiento">
+                        <p:menuitem value="Catálogos" icon="ui-icon-wrench" url="/paginas/administracion/mantenimientoSeguridades.xhtml" />      
+                    </p:submenu>
+                    <p:submenu label="Procesos">
+                        <p:menuitem value="Asignar Perfil Usuario" icon="ui-icon-plus"/>
+                    </p:submenu>
+                    <p:submenu label="Reportes">
+                        <p:menuitem value="Reportes Usuarios" icon="ui-icon-person" />
+                    </p:submenu>
+                </p:submenu>
+            </p:panelMenu>
+      </h:form>
+
+
+
+</ui:composition>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- <h:head>
+            <title>Facelet Title</title>
+    
+            <style>
+               body { background-image: url("/resources/images/fondoBody.jpg");
+                      background-size: cover;
+                      background-repeat: no-repeat; 
+                      background-attachment:fixed;
+    }
+            </style>
+    
+        </h:head>-->
+    <h:body >
+        <ui:composition template="/plantillas/template-login.xhtml">
+            <ui:define name="content">
+
+                <h:form id="formPrincipal" >
+                    <p:layout fullPage="true">
+                        <p:layoutUnit position="center" style="border:hidden" >
+                            <p:panel   style="background-image: url(resources/images/fondoBody1.jpg);max-width: 100%;height: auto; background-repeat: no-repeat; background-size: cover">
+                                <center>
+                                    <!--                                    <p:spacer height="50"></p:spacer>-->
+                                    <p:panel  style="background-image: url(resources/images/bannerlogin.png);max-width: 70%;height: auto; background-repeat: no-repeat;background-size: cover;border-color: #036fab ">
+                                        <p:spacer height="100"></p:spacer>
+                                    </p:panel>
+
+                                    <center>
+
+                                        <p:panel style="border-color: #036fab; width: 70%; border-top: 1px">
+                                            <p:spacer height="10"></p:spacer>
+                                            <p:panel id="panelLogin"  header="#{etiquetas['ingreso.sistema']}" style=" font-size: 12px; text-align: center; font-weight: bold; width:50%; float: bottom; height:300px" >
+                                                <!--                                                <h:panelGrid columns="2" >-->
+                                                <!--                                                    <h:panelGroup >
+                                                                                                        <h:panelGrid columns="1" cellpadding="5" cellspacing="0" style="margin-left: 0px;padding-top: 10px;" >
+                                                                                                            <img src="#{request.contextPath}/resources/images/fondoLogin.jpg" style="max-width: 50%; height: auto"/>                                         
+                                                                                                            <p:commandLink id="RecuperarClave" value="Recuperar Clave" onclick="PF('dialogRecuperarClave').show();" process="@this"> </p:commandLink>
+                                                                                                        </h:panelGrid>
+                                                
+                                                                                                    </h:panelGroup>-->
+                                                <center>
+                                                    <h:panelGroup >
+
+
+
+
+                                                        <h:panelGrid id="gridLogin" columns="3" cellpadding="5" cellspacing="0" style="left: 0px;padding-top: 30px" >
+                                                            <h:outputLabel for="txt_usuario">#{etiquetas['usuario']} *:</h:outputLabel>
+                                                            <p:inputText id="txt_usuario" value="#{loginController.usuario}" autocomplete="off"
+                                                                         required="true" requiredMessage="#{mensajes['requerido']}"/>
+                                                            <p:message for="txt_usuario"/>
+
+                                                            <h:outputLabel for="txt_pass">#{etiquetas['contrasenia']} *:</h:outputLabel>
+                                                            <p:password id="txt_pass"  value="#{loginController.password}" style="text-transform: uppercase" autocomplete="off"
+                                                                        promptLabel="Ingrese su clave" required="true" requiredMessage="#{mensajes['requerido']}"/>
+                                                            <p:message for="txt_pass"/>
+
+                                                        </h:panelGrid>
+                                                        
+
+                                                        <h:panelGrid columns="1" cellpadding="5" cellspacing="0" style="float: bottom">
+                                                            <p:commandButton id="btnIngresar" value="#{botones['ingresar']}" style="font-size: 12px; font-weight: bold" action="#{loginController.valida()}" update=":formPrincipal:gridLogin"/>
+
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="1" cellpadding="20" cellspacing="0">
+<!--                                                            <img src="#{request.contextPath}/resources/images/fondoLogin.jpg" style="max-width: 50%; height: auto"/>                                         -->
+                                                            <p:commandLink id="RecuperarClave" value="#{botones['recuperar.clave']}" onclick="PF('dialogRecuperarClave').show();" process="@this"> </p:commandLink>
+                                                        </h:panelGrid>
+                                                    </h:panelGroup>
+                                                </center>
+
+                                                <!--                                                </h:panelGrid>-->
+                                            </p:panel>
+                                            <p:panel  style="background-image: url(resources/images/4sellos.png);width: 50%;height: auto; background-repeat: no-repeat;border: hidden">
+                                                <p:spacer height="50"></p:spacer>
+                                            </p:panel>
+                                            <p:spacer height="50"></p:spacer>
+                                        </p:panel>
+
+                                    </center>
+
+
+                                </center>
+
+                            </p:panel>
+                        </p:layoutUnit>
+
+                    </p:layout>
+                </h:form>
+
+
+                <p:dialog header="#{etiquetas['recupera.contrasenia']}"  widgetVar="dialogRecuperarClave"  resizable="false" width="300"  modal="true" style="font-size: 12px; font-weight: bold" appendTo="@(body)">
+                    <h:form id="recClave" enctype="multipart/form-data" >
+                        <p:outputPanel>
+                            <h:panelGrid columns="3" cellpadding="1">
+                                <h:outputLabel for="cedula" value="#{etiquetas['cedula']} :"/>
+                                <p:inputText id="cedula" value="#{loginController.cedula}" autocomplete="off" required="true" requiredMessage="#{mensajes['requerido']}"/>
+                                <p:ajax event="keyup" update=":recClave:btnAceptar" listener="#{loginController.validarVacios}"/>
+<!--                                <p:inputText id="cedula" value="#{loginController.cedula}" autocomplete="off" style="width: 100">
+                                   
+                               </p:inputText>-->
+                            </h:panelGrid>
+                            <p:spacer height="5"></p:spacer>
+                            <h:panelGroup>
+                                <center>
+                                    <p:commandButton id="btnAceptar" value="#{botones['aceptar']}" icon="ui-icon-locked" style="margin: 0; font-size: 11px; font-weight: bold"
+                                                     onclick="PF('dialogRecuperarClave').hide();" disabled="#{loginController.validaVacios}"  >
+                                        <p:ajax update=":recClave:btnAceptar" listener="#{loginController.enviarPorMail()}"/>
+                                    </p:commandButton>
+                                </center>
+                            </h:panelGroup>
+                        </p:outputPanel>
+                    </h:form>  
+                </p:dialog>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

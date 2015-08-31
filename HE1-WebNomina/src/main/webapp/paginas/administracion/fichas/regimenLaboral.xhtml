@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <p:panel id="regimenFiltro" visible="true" style="font-size: 12px; text-align: left; border: hidden; font-weight: bold">
+                    <h:outputLabel for="RegimenL" value="#{etiquetas['campo.descripcion']}" />
+                    <p:spacer height="10"></p:spacer>
+                    <p:inputText id="RegimenL" value="" autocomplete="off" required="false" style="width: 200px">
+                    </p:inputText>
+                    <p:spacer height="10"></p:spacer>
+                    <p:commandButton id="btnBuscarRegL" value="#{botones['buscar']}" icon="ui-icon-search" style="margin: 0; font-size: 11px "
+                                     process="@this"
+                                     action="#{relacionLaboralControler.buscarGrupo()}"
+                                     update="RegimenL,regimenResultado"
+                                     title="Buscar Grupo">
+                    </p:commandButton>
+              </p:panel>
+
+        <p:spacer height="2"></p:spacer>
+        
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:commandButton type="button" value="#{botones.nuevo}" icon="ui-icon-plus" />
+
+                    <!--<span class="ui-separator">-->
+                        <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
+                    <!--</span>-->
+
+                    <!--<p:commandButton type="button" title="Save" icon="ui-icon-disk" />-->
+                    <!--<p:commandButton type="button" title="Delete" icon="ui-icon-trash" />-->
+                    <!--<p:commandButton type="button" title="Print" icon="ui-icon-print" />-->
+                </f:facet>
+
+               
+            </p:toolbar>
+        <p:panel id="regimenResultado" visible="true" style="text-align: left">
+            
+            
+            
+        </p:panel>
+    </h:body>
+</html>
+

@@ -1,0 +1,53 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <h:graphicImage url="/resources/images/bannerSistema.jpg" style="max-width: 100%; height: auto"/>
+
+    <p:toolbar style="font-size: 12px; height: 25px">
+        <f:facet name="left">
+            <h:outputLabel value="#{etiquetas['unidad.salud']} :" />
+            <h:outputText value="#{menuSistemaController.segUnidadUsuario.uusId}" ></h:outputText>
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+            </span>
+                <h:outputText value="#{etiquetas['modulo']} :"></h:outputText>
+            <h:outputText value="#{menuSistemaController.modulo}" ></h:outputText>
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+            </span>
+                <h:outputText value="#{etiquetas['usuario']} :"></h:outputText>
+            <h:outputText value="#{menuSistemaController.segUsuario.usuNombre}" ></h:outputText>
+        </f:facet>
+
+        <f:facet name="right">
+            <h:outputText value="#{etiquetas['fecha']} :"></h:outputText>
+            <h:outputText value="#{menuSistemaController.fecha}">
+                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss " timeZone="America/Guayaquil" />
+            </h:outputText>
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+            </span>
+
+            <h:outputLink id="ayuda"
+                          value="#{facesContext.externalContext.requestContextPath}/downloads/Documento.pdf" target="_blank">
+                <h:graphicImage value="/resources/images/ayuda.png"
+                                style="border:0; width : 20px; height : 15px; " />
+            </h:outputLink>
+                <p:tooltip id="toolTipAyuda" for="ayuda" value="#{etiquetas['ayuda']}" style="font-size: 12px" />
+
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+            </span>
+            <h:outputLink id="cerrar_sesion"
+                          value="#{facesContext.externalContext.requestContextPath}/faces/login.xhtml"
+                          style="text-align:right;color:White;">#{etiquetas['cerrar.sesion']}
+                
+            </h:outputLink>
+                <p:tooltip id="toolTipCerrarSesion" for="cerrar_sesion" value="#{etiquetas['salir']}" style="font-size: 12px" />
+        </f:facet>
+    </p:toolbar>
+</ui:composition>

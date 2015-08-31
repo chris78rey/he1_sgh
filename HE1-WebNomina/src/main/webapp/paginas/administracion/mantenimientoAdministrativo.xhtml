@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../../plantillas/template.xhtml">
+            <ui:define name="content">
+                <h:form id="formPrincipal">
+                    <p:panel id ="panelBase" header="Mantenimiento Administrativo" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+                        <p:tabView  id="tab1" orientation="top" style="font-size: 12px" activeIndex="" cache="false" >
+                            <!--<p:ajax event="tabChange" listener="" update=":tab1"/>-->
+                            <p:tab id="tab1" title="Relación Laboral" >
+                                <p:outputPanel>
+                                    <ui:include src="/paginas/administracion/fichas/relacionLaboral.xhtml"/>
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab2" title="Regimen Laboral" >
+                                <p:outputPanel>
+                                    <ui:include src="/paginas/administracion/fichas/regimenLaboral.xhtml"/>
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab3" title="Tipo de Empleado" >
+                                <!--                                <ui:include src="/pages/fichaOdon6ReceMoviNew.xhtml" />-->
+                            </p:tab>
+
+                            <p:tab id="tab4" title="Niveles Servidores Públicos" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab5" title="Entidades" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>                  
+                            </p:tab>
+
+                            <p:tab id="tab6" title="Motivos de Licencia" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab7" title="" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab8" title="" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+                            <p:tab id="tab9" title="" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab10" title="" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                        </p:tabView>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

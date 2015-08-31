@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <h:outputStylesheet library="css" name="cssLayout.css"/>
+                <title>#{etiquetas['nombre.modulo']}</title>
+            </f:facet>
+        </h:head>
+
+        
+        <h:body>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="150" resizable="false" closable="false" collapsible="false" style="border: hidden" >
+                    <ui:include src="/plantillas/include/header.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="190" header="Menú" collapsible="true" style="font-size: 14px">
+
+                    <ui:include src="/plantillas/include/menu.xhtml" />
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="center">
+                     <ui:insert name="content" id="contenido"/>   
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="south" size="30" header="#{etiquetas['copyright']}"  style="font-size: 12px; text-align: center; font-weight: bold; border: hidden">
+                    <!--                    <ui:include src="/plantillas/include/footer.xhtml"/>-->
+                </p:layoutUnit>
+
+                
+                
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

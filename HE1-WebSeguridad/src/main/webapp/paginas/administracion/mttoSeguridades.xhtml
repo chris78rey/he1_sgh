@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/plantillas/template.xhtml">
+
+    <ui:define name="content">
+       
+            <p:panel id ="panelBase" header="#{etiquetas['seguridades.admin']}" style="font-size: 14px; text-align: left; font-weight: bold">
+                <p:tabView scrollable="true" id="tab" style="border: hidden; font-size: 12px">
+                    <p:tab id="tab1" title="#{etiquetas['seguridades.grupo']}">
+                    <p:outputPanel>
+                                    <ui:include src="/paginas/administracion/grupoSistemaSeguridades.xhtml"/>
+                    </p:outputPanel>
+                    </p:tab>
+                     <p:tab id="tab2" title="#{etiquetas['seguridades.perfil']}">
+                    <p:outputPanel>
+<!--                                    <ui:include src="/paginas/administracion/fichas/relacionLaboral.xhtml"/>-->
+                    </p:outputPanel>
+                    </p:tab>
+                    <p:tab id="tab3" title="#{etiquetas['seguridades.menu']}">
+                    <p:outputPanel>
+<!--                                    <ui:include src="/paginas/administracion/fichas/relacionLaboral.xhtml"/>-->
+                    </p:outputPanel>
+                    </p:tab>
+                                
+                                              
+                </p:tabView>
+            </p:panel>
+            
+     
+        
+
+        
+
+        
+    </ui:define>
+
+</ui:composition>

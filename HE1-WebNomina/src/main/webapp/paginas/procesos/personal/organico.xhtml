@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./../../../plantillas/template.xhtml">
+
+    <ui:define name="content">
+        <h:form id="formPrincipal">
+
+
+            <p:growl id="growl" autoUpdate="true" showDetail="true"/>
+            <p:panel id="vigenciaFiltro" visible="true" style="font-size: 12px; text-align: left; border: hidden; font-weight: bold">
+                <h:outputLabel for="OrganicoV" value="#{etiquetas['campo.descripcion']}" />
+                <p:spacer height="10"></p:spacer>
+                <p:inputText id="OrganicoV" value="#{vigenciaOrganico.descripcionOrganico}" autocomplete="off" required="false" style="width: 200px">
+                    <p:ajax event="keyup" process="@this" update="btnBuscarRegL" listener="#{relacionLaboralControler.validaVacios}"/>
+                </p:inputText>
+                <p:spacer height="10"></p:spacer>
+                <p:commandButton id="btnBuscarRegL" value="#{botones['buscar']}" icon="ui-icon-search" style="margin: 0; font-size: 11px "
+                                 process="@this"
+                                 action="#{vigenciaOrganico.buscarOrganico()}"
+                                 update="OrganicoV,vigenciaResultado"
+                                 title="Buscar Grupo">
+                </p:commandButton>
+            </p:panel>
+
+            <p:spacer height="2"></p:spacer>
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:commandButton id="btnNuevorRegL"  
+                                     value="#{botones.nuevo}" 
+                                     icon="ui-icon-plus" 
+                                     title="Nuevo Grupo"
+                                     onclick="PF('dialogNewOrganico').show();">
+                    </p:commandButton>
+                </f:facet>
+            </p:toolbar>
+
+
+            <p:panel id="vigenciaResultado" visible="true" style="text-align: left">
+
+                <p:dataTable value="#{vigenciaOrganico.grupoOrganicoNombre}" var="item"  paginator="true" 
+                             rows="10" rowIndexVar="index"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,20">
+                    <p:column headerText="#{etiquetas['campo.ord']}" style="width: 1%; font-size: 12px; text-align: center; font-weight: bold">
+                        <h:outputText value="#{index + 1}"/>                      
+                    </p:column>
+                    <p:column headerText="#{etiquetas['campo.descripcion']}" style="width: 40%; font-size: 12px; text-align: left; font-weight: bold">
+                        <h:outputText value="#{vigenciaOrganico.descripcionOrganico}"/>
+                    </p:column>
+                    <p:column headerText="desde" style="width: 10%; font-size: 12px; text-align: center; font-weight: bold">
+                        <h:outputText value="#{vigenciaOrganico.desde}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="hasta" style="width: 10%; font-size: 12px; text-align: center; font-weight: bold">
+                        <h:outputText value="#{vigenciaOrganico.hasta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{etiquetas['campo.estado']}" style="width: 10%; font-size: 12px; text-align: center; font-weight: bold">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{item.ocaEstado}" 
+                                                                 converter="estadoConvertidor" style="white-space: pre; text-transform: uppercase;text-align: left" /></f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{vigenciaOrganico.estadoOrganico}" style="width:100%">
+                                    <f:selectItems value="#{vigenciaOrganico.estadoItems}" var="estado" />
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Unidad de Salud" style="width: 30%; font-size: 12px; text-align: center; font-weight: bold">
+
+                        <h:outputText value="#{item.cggUnidadSalud.unsNombre}"/>
+                    </p:column>
+
+                    <p:column headerText="#{etiquetas['campo.editar']}" style="width: 5%; font-size: 12px; text-align: center; font-weight: bold">
+                        <p:commandButton id="btnEditar" style="margin: 0" title="#{etiquetas['dialogo.editar']}"
+                                         icon="ui-icon-pencil" 
+                                         onclick="PF('editarRLDialog').show();" process="@this">
+                        </p:commandButton>  
+                    </p:column>               
+                    <p:column headerText="#{etiquetas['campo.eliminar']} " style="width: 5%; font-size: 12px; text-align: center; font-weight: bold">
+                        <p:commandButton id="btnEliminar" style="margin: 0" title="#{etiquetas['dialogo.eliminar']}"
+                                         icon="ui-icon-trash" 
+                                         onclick="PF('deleteRLDialog').show();" process="@this">
+                        </p:commandButton>  
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:spacer height="10px"/>
+
+
+        </h:form>
+
+        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+            <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                <h:outputText value="Button:" />
+                <h:outputText value="#{vigenciaOrganico.date3}">
+                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                </h:outputText>
+            </p:panelGrid>
+        </p:dialog>
+
+        <p:dialog header="#{etiquetas['dialogo.nuevo']}"  widgetVar="dialogNewOrganico"  resizable="false" width="400"  modal="true" style="font-size: 12px; text-align: left; font-weight: bold" appendTo="@(body)">
+            <h:form id="FmRelacion" enctype="multipart/form-data">
+                <p:outputPanel>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="desc" value="#{etiquetas['campo.descripcion']}"/>
+                        <h:inputText id="desc" value="#{vigenciaOrganico.descripcionOrganico}"/>
+                        <p:ajax event="keyup" process="@this" update="btnGrabarRL" listener="#{vigenciaOrganico.validarVacios()}"/>
+
+                        <h:outputLabel  for="desde" value="desde"/>
+                        <p:calendar  id="desde" value="#{vigenciaOrganico.date3}" showOn="desde"/>
+
+                        <h:outputLabel for="hasta"  value="hsta"/>
+                        <p:calendar id="hasta" value="#{calendarView.date3}" showOn="hasta"/>
+                        <h:outputLabel value="#{etiquetas['campo.estado']}"/>
+
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{item.ocaEstado}" 
+                                                                 converter="estadoConvertidor" style="white-space: pre; text-transform: uppercase;text-align: left" /></f:facet>
+
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{item.ocaEstado}" style="width:100%">
+                                    <f:selectItems value="#{vigenciaOrganico.estadoItems}" var="estado" />
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                        <h:outputLabel for="unidad" value="Unidad"/>
+                        <h:inputText id="unidad" value="#{vigenciaOrganico.editOrganicoCab.ocaDescripcion}"
+                                     rendered="#{not inicioControlador.esNuevo}"/>
+
+                    </h:panelGrid>
+                    <h:panelGroup>
+                        <p:commandButton id="btnGrabarRL" value="Guardar" icon="ui-icon-plus" style="margin: 0; font-size: 11px "
+                                         process="@this"
+                                         action="#{vigenciaOrganico.guardarOrganico()}"
+                                         update="btnGrabarRL">
+                        </p:commandButton>
+
+
+
+                        <p:commandButton value="Cancelar"
+                                         action="#{vigenciaOrganico.cancelarOrganico()}"
+                                         process="@this"/>
+                    </h:panelGroup>
+
+
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+    </ui:define>
+
+</ui:composition>
+
+

@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:body>
+        <p:panel id="pfiltro" visible="true" style="font-size: 12px; text-align: left; border: hidden; font-weight: bold">
+            <h:panelGrid columns="2" cellpadding="1" style="border:aqua">
+                <h:panelGrid id="Buscar" columns="3" cellpadding="1" style=" font-size: 12px; font-weight: bold; alignment-adjust: left">
+                    <h:outputLabel for="RelLab" value="#{etiquetas['campo.descripcion']}" />
+                    <p:inputText id="RelLab" value="#{relacionLaboralControler.descripcionRelacion}" autocomplete="off" required="false" style="width: 200px">
+                        <p:ajax event="keyup" process="@this" update="btnBuscar" listener="#{relacionLaboralControler.validaVacios}"/>
+                    </p:inputText>
+                    <p:commandButton id="btnBuscar" value="#{botones['buscar']}" icon="ui-icon-search" style="margin: 0; font-size: 11px "
+                                     process="@this"
+                                     action="#{relacionLaboralControler.buscarGrupo()}"
+                                     update="RelLab,presultado"
+                                     title="Buscar Grupo">
+                    </p:commandButton>
+                </h:panelGrid>
+
+
+            </h:panelGrid>
+        </p:panel>
+        <p:spacer height="2"></p:spacer>
+
+        <p:panel id="presultado" visible="true" style="text-align: left">
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:commandButton type="button" value="#{botones.nuevo}" icon="ui-icon-plus"
+                                     action="#{relacionLaboralControler.nuevo()}"
+                                     onclick="PF('dialogNewRelacion').show();" 
+                                     process="@this"
+                                     />
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable id="dtRelacionLaboral" value="#{relacionLaboralControler.grupoXDescripcion}" var="rell" paginator="true" 
+                         rows="10" rowIndexVar="index"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20">
+                <p:column headerText="#{etiquetas['campo.ord']}" style="width: 1%; font-size: 12px; text-align: center; font-weight: bold">
+                    <h:outputText value="#{index + 1}"/>
+                </p:column>
+                <p:column headerText="#{etiquetas['campo.descripcion']}" style="width: 60%; font-size: 12px; text-align: left; font-weight: bold">
+                    <h:outputText value="#{rell.rllDescripcion}"
+                                  style="width: 60%; font-size: 12px; white-space: pre; text-transform: uppercase;text-align: left"/>
+                </p:column>
+                <p:column headerText="#{etiquetas['campo.estado']}"  style="width: 6%; font-size: 12px;text-align: center ; font-weight: bold">
+                    <!--<h:outputText value="#{rell.rllEstado}"/>-->
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{rell.rllEstado}" 
+                                                             converter="estadoConvertidor" style="white-space: pre; text-transform: uppercase;text-align: left" /></f:facet>
+                        <!--<f:facet name="input"><p:inputText id="modelInput1" value="#{gsistema.gruEstado}" style="width: 100%"/></f:facet>-->
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{rell.rllEstado}" style="width:100%">
+                                <f:selectItems value="#{relacionLaboralControler.estadoItems}" var="estado" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{etiquetas['campo.editar']}" style="width: 5%; font-size: 12px; text-align: center; font-weight: bold">
+                    <p:commandButton id="btnEditar" style="margin: 0" title="Eliminar el registro"
+                                     icon="ui-icon-pencil" 
+                                     onclick="PF('editarRLDialog').show();" process="@this">
+                    </p:commandButton>  
+                </p:column>               
+                <p:column headerText="#{etiquetas['campo.eliminar']} " style="width: 5%; font-size: 12px; text-align: center; font-weight: bold">
+                    <p:commandButton id="btnEliminar" style="margin: 0" title="Eliminar el registro"
+                                     icon="ui-icon-trash" 
+                                     onclick="PF('deleteRLDialog').show();" process="@this">
+                    </p:commandButton>  
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+
+
+    <p:dialog header="#{etiquetas['tabla.crear']}"  widgetVar="dialogNewRelacion"  resizable="false" modal="true" style="width: 20%; font-size: 12px; text-align: left; font-weight: bold" appendTo="@(body)">
+        <h:form id="nuevaRelacion" enctype="multipart/form-data" >
+            <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="1" style="font-size: 12px; text-align: left; font-weight: bold">
+                    <h:outputLabel for="RelLab" value="#{etiquetas['campo.descripcion']}"/>
+                    <p:inputText id="RelLab" value="#{relacionLaboralControler.descpRLL}" autocomplete="off" style="width: 200px">
+                       <p:ajax event="keyup" process="@this" update="btnGrabar3" listener="#{relacionLaboralControler.validaVacios}"/>
+                    </p:inputText>
+                </h:panelGrid>
+                <p:spacer height="5"></p:spacer>
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar3" value="#{botones.guardar}"  icon="ui-icon-locked" 
+                                         process="@this"
+                                          update="RelLab,nuevaRelacion"
+                                          action="#{relacionLaboralControler.guardarP()}"
+                                         onclick="PF('dialogNewRelacion').hide()">
+
+                        </p:commandButton>
+                        <p:spacer height="5"></p:spacer>
+                        <p:commandButton id="btnCancelar3"  value="#{botones.cancelar}" style="margin:0"
+                                         onclick="PF('dialogNewRelacion').hide();">
+                        </p:commandButton>
+                    </center>
+                </h:panelGroup>
+
+            </p:outputPanel>
+        </h:form>  
+    </p:dialog>
+
+
+
+    <p:dialog header="#{etiquetas['tabla.editar']}"  widgetVar="editarRLDialog"  resizable="false" width="400"  modal="true" style="font-size: 12px; text-align: left; font-weight: bold" appendTo="@(body)">
+        <h:form id="editarRelacion" enctype="multipart/form-data" >
+            <p:outputPanel>
+
+                <h:panelGrid columns="2" cellpadding="1" style="font-size: 12px; text-align: left; font-weight: bold">
+
+                    <h:outputLabel for="descripcion" value="#{etiquetas['campo.descripcion']}"/>
+                    <p:inputText id="descripcion" value="#{relacionLaboralControler.editRelacionLaboral.rllDescripcion}" autocomplete="off" style="width: 200px">
+                    </p:inputText>
+
+                    <h:outputLabel for="estado" value="#{etiquetas['campo.estado']}"/>
+                    <p:inputText id="estado" value="#{relacionLaboralControler.editRelacionLaboral.rllEstado}" autocomplete="off" style="width: 200px">
+                    </p:inputText>
+
+                </h:panelGrid>
+                <p:spacer height="5"></p:spacer>
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnEditar" value="#{botones.guardar}" 
+                                         action="#{relacionLaboralControler.actualizar()}" 
+                                         icon="ui-icon-locked" 
+                                         style="margin: 0"
+                                         onclick="PF('dialogSistema').hide()">
+                        </p:commandButton>
+                        <p:spacer height="5"></p:spacer>
+                        <p:commandButton id="btnCancelar2"  value="#{botones.cancelar}" style="margin:0"
+                                         onclick="PF('editarRLDialog').hide();">
+                        </p:commandButton>
+                    </center>
+                </h:panelGroup>
+            </p:outputPanel>
+        </h:form>  
+    </p:dialog>
+
+    <p:dialog id="deleteDlg" header="Eliminar Registro" widgetVar="deleteRLDialog" resizable="false" width="500" modal="true" appendTo="@(body)" style="font-size: 11px; text-align: left; font-weight: bold" >
+        <h:form id="deleteForm1">
+            <p:outputPanel id="panelDeleteRegistro1">
+                <center>
+                    <h:panelGrid id="displayDelete1" columns="1" >                          
+                        <h:outputLabel value="¿Está seguro que desea eliminar el registro.?" style="font-size: 11px"/>
+                    </h:panelGrid>
+                </center>
+
+                <p:spacer height="10"></p:spacer>
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnEliminar"  value="#{botones.eliminar}" style="margin:0"
+                                         action="#{relacionLaboralControler.eliminar()}" 
+                                         onclick="PF('deleteRLDialog').hide();">
+                        </p:commandButton>
+                        <p:spacer height="5"></p:spacer>
+                        <p:commandButton id="btnCancelar1"  value="#{botones.cancelar}" style="margin:0"
+                                         onclick="PF('deleteRLDialog').hide();">
+                        </p:commandButton>
+                    </center>
+                </h:panelGroup>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+    </h:body>
+</html>
+

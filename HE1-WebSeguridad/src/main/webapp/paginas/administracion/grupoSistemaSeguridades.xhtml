@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:form id="formPrincipal">
+   
+    <p:panel id="pfiltro" visible="true" style="font-size: 12px; text-align: left; border: hidden; font-weight: bold">
+                            <h:panelGrid columns="4" cellpadding="5" cellspacing="5" style="font-size: 12px; font-weight: bold">
+                                <h:outputLabel for="desGpo" value="#{etiquetas['campo.descripcion']}" />
+                                <p:inputText id="desGpo" value="#{mttoSeguridadesController.descripcionGrupo}" autocomplete="off" required="false" style="width: 200px">
+                                    <p:ajax event="keyup" process="@form" update="btnBuscar"/>
+                                </p:inputText>
+                                <p:commandButton id="btnBuscar" value="#{botones['buscar']}" icon="ui-icon-search" style="margin: 0; font-size: 12px; float: left "
+                                                 process="@form"
+                                                 action="#{mttoSeguridadesController.buscarGrupo()}"
+                                                 update="desGpo,presultado"
+                                                 title="#{botones['title.buscar']}">
+                                </p:commandButton>
+
+                            </h:panelGrid>
+ </p:panel>
+                        <p:panel id="presultado" visible="true" style="text-align: left; border: hidden">
+                            <p:toolbar>
+                                <f:facet name="left">
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+                                    <h:outputLabel for="desGpo" value="Grupo" />
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+
+
+                                </f:facet>
+
+                                <f:facet name="right">
+
+                                    <p:commandButton id="btnNuevoGpo" value="Nuevo" icon="ui-icon-plus" title="#{botones['title.nuevo']}"
+                                                     
+                                                     onclick="PF('dialogNewGrupo').show();"/>
+                                   
+
+                                </f:facet>
+                                  
+                            </p:toolbar>          
+
+
+                            <p:dataTable id="dtGrupoSistema" value="#{mttoSeguridadesController.grupoList}"
+                                         rendered="#{not empty mttoSeguridadesController.grupoList}"
+                                         var="gsistema" paginator="true" rows="10" rowIndexVar="index" resizableColumns="true" 
+                                         editable="true" emptyMessage="No se encontraron resultados">
+                                <p:ajax event="rowToggle" listener="#{mttoSeguridadesController.onRowToggleGrupo}"/>
+                                <p:ajax event="rowEdit" listener="#{mttoSeguridadesController.onRowEditGpo}" partialSubmit="true"/>
+                               <p:ajax event="rowEditCancel" listener="#{mttoSeguridadesController.onRowCancelGpo}" partialSubmit="true"/>
+
+
+
+
+
+
+                                <p:column style="width: 1%; font-size: 12px; font-weight: bold">
+                                    <p:rowToggler/>   
+                                </p:column>
+                                <p:column headerText="#{etiquetas['campo.ord']}" style="width: 2%; font-size: 12px; font-weight: bold">
+                                    <h:outputText value="#{index + 1}"/>
+                                </p:column>
+                                <p:column headerText="#{etiquetas['campo.descripcion']}" style="font-size: 12px; font-weight: bold" >
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{gsistema.gruDescripcion}" style="white-space: pre; text-transform: capitalize;text-align: left" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="modelInput" value="#{gsistema.gruDescripcion}" style="width: 100%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column> 
+                                <p:column headerText="#{etiquetas['campo.estado']}" style="font-size: 12px; font-weight: bold" >
+
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{gsistema.gruEstado}" converter="estadoConvertidor" style="white-space: pre; text-transform: uppercase;text-align: left" /></f:facet>
+                                        <!--<f:facet name="input"><p:inputText id="modelInput1" value="#{gsistema.gruEstado}" style="width: 100%"/></f:facet>-->
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{gsistema.gruEstado}" style="width:100%">
+                                                <f:selectItems value="#{selectSeguridadesController.estadoItems}" var="estado" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="#{etiquetas['campo.orden']}" style="width: 10%; font-size: 12px; font-weight: bold">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{gsistema.gruOrdenPresentacion}" style="white-space: pre-line;text-transform: uppercase;width: 100%"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInput13" value="#{gsistema.gruOrdenPresentacion}"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+          
+                                <p:column headerText="#{etiquetas['tabla.editar']}" style="width: 3%; font-size: 12px; font-weight: bold">
+                                    <p:rowEditor/>
+                                </p:column>
+                             
+                                <p:column headerText="#{etiquetas['tabla.eliminar']}" style="width: 4%; font-size: 12px; font-weight: bold">
+                                    <p:commandButton id="btnEliminarGpo" style="margin: 0" title="#{botones['title.eliminar']}"
+                                                     icon="ui-icon-trash" 
+                                                     onclick="PF('deleteGpoDialog').show();" process="@this">
+                                        <f:setPropertyActionListener value="#{gsistema}" target="#{mttoSeguridadesController.selectSegGrupoSistema}" />
+                                    </p:commandButton>    
+                                </p:column>
+                                <p:rowExpansion>
+                                  
+                                        <p:toolbar>
+                                <f:facet name="left">
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+                                        <h:outputLabel for="desGpo" value="Sistemas por Grupo" style="font-size: 12px" />
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+
+
+                                </f:facet>
+
+                                <f:facet name="right">
+  <p:commandButton id="btnNuevoGpo" value="Nuevo99" icon="ui-icon-plus" title="#{botones['title.nuevo']}" style="font-size: 12px"
+                                                     onclick="PF('dialogNewGrupo').show();" process="@this">
+                                        
+                                    </p:commandButton>
+                                 
+                                    
+
+                                </f:facet>
+
+                            </p:toolbar>    
+                                        <p:dataTable id="dtSistema" value="#{mttoSeguridadesController.grupoSistemaList}"
+                                                     rendered="#{not empty mttoSeguridadesController.grupoSistemaList}"
+                                                     var="gpoSistema" paginator="true" rows="10" rowIndexVar="index" resizableColumns="true" 
+                                                     editable="true" emptyMessage="No se encontraron resultados" style="font-size: 12px">
+
+<!--                                            <p:ajax event="rowEdit" listener="#{catalogoInvestigacionController.onRowEditSubP1}" partialSubmit="true"/>
+                                            <p:ajax event="rowEditCancel" listener="#{catalogoInvestigacionController.onRowCancelSubP1}" partialSubmit="true"/>-->
+                                          
+                                            <p:column headerText="#{etiquetas['campo.ord']}" style="width:2%; font-size: 12px; font-weight: bold">
+                                                <h:outputText value="#{index + 1}" />
+                                            </p:column>
+                                            <p:column headerText="#{etiquetas['campo.descripcion']}" style="width: 20%; font-size: 12px; font-weight: bold" >
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{gpoSistema.gruDescripcion}" style="white-space: pre; text-transform: uppercase;text-align: left" /></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInput" value="#{gpoSistema.gruDescripcion}" style="width: 100%"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="#{etiquetas['campo.orden']}" style="width: 10%; font-size: 12px; font-weight: bold">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{gpoSistema.gruOrdenPresentacion}" style="white-space: pre-line;text-transform: uppercase;width: 100%"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInput13" value="#{gpoSistema.gruOrdenPresentacion}"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="#{etiquetas['campo.estado']}" style="font-size: 12px; font-weight: bold">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{gpoSistema.gruEstado}" style="white-space: pre-line;text-transform: uppercase;width: 100%"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInput14" value="#{gpoSistema.gruEstado}"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                           <p:column headerText="#{etiquetas['tabla.editar']}" style="width: 4%; font-size: 12px; font-weight: bold">
+                                                <p:rowEditor/>
+                                            </p:column>
+                                            <p:column headerText="#{etiquetas['tabla.eliminar']}" style="width: 4%; font-size: 11px; font-weight: bold">
+                                                <p:commandButton id="btnEliminarSist" style="margin: 0" title="Eliminar el registro"
+                                                                 icon="ui-icon-trash" 
+                                                                 onclick="PF('deleteSistDialog').show();" process="@this">
+                <!--                                    <f:setPropertyActionListener value="#{linea}" target="#{catalogoInvestigacionController.lineaInvestSelected}" />-->
+                                                </p:commandButton>    
+                                            </p:column>
+
+                                        </p:dataTable>
+                                  
+
+                                </p:rowExpansion>
+                            </p:dataTable>
+
+                        </p:panel>
+      
+       
+                
+    </h:form> 
+    <p:dialog header="#{etiquetas['dialogo.nuevo']}"  widgetVar="dialogNewGrupo"  resizable="false" width="400"
+  modal="true" style="font-size: 12px; text-align: left; font-weight: bold" 
+  appendTo="@(body)">
+                <h:form id="fmGrupo" enctype="multipart/form-data" >
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5" style="font-size: 12px; text-align: left; font-weight: bold">
+                            <h:outputLabel for="descripcion" value="#{etiquetas['campo.descripcion']}:"/>
+                            <p:inputText id="descripcion" value="#{mttoSeguridadesController.descripcionGrupo}" autocomplete="off"  style="width: 200px">
+                                <p:ajax event="keyup"  update="btnGrabarGpo" listener="#{mttoSeguridadesController.validarVacios}"/>
+                            </p:inputText>
+                            <h:outputLabel for="presentacion" value="#{etiquetas['campo.orden']}:"/>
+                            <p:spinner id="presentacion" value="#{mttoSeguridadesController.ordenPresentacion}" />
+                            <p:ajax event="keyup"  update="btnGrabarGpo" listener="#{mttoSeguridadesController.validarVacios}"/>
+                           
+
+                            <center>
+                                
+
+                                <p:commandButton id="btnGrabarGpo" value="#{botones['guardar']}" icon="ui-icon-locked" style="margin: 0"
+                                                 disabled="#{mttoSeguridadesController.validaVacios}"
+                                                 process="@form"
+                                                 onclick="PF('dialogNewGrupo').hide();">
+                                    <p:ajax listener="#{mttoSeguridadesController.guardar()}"/>
+                                </p:commandButton>
+                                 
+
+                            </center>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:form>  
+            </p:dialog>
+        
+            <p:dialog id="deleteDlg" header="#{etiquetas['dialogo.eliminar']}" widgetVar="deleteGpoDialog" resizable="false" width="500" modal="true" appendTo="@(body)" style="font-size: 12px; text-align: left; font-weight: bold" >
+                <h:form id="deleteForm1">
+                    <p:outputPanel id="panelDeleteRegistro1">
+                        <center>
+                            <h:panelGrid id="displayDelete1" columns="1" >                          
+                                <h:outputLabel value="¿Está seguro que desea eliminar el registro?" style="font-size: 12px; font-weight: bold"/>
+                            </h:panelGrid>
+                        </center>
+                        <p:spacer height="10"></p:spacer>
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnEliminarP1"  value="Eliminar" style="margin:0"
+                                                 process="@form"
+                                                 onclick="PF('deleteGpoDialog').hide();">
+                                    <p:ajax update="" listener ="#{mttoSeguridadesController.eliminarGpo()}" />
+                                </p:commandButton>
+                            </center>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+            <p:dialog header="#{etiquetas['dialogo.nuevo']}"  widgetVar="dialogSistema"  resizable="false" width="400"  modal="true" style="font-size: 12px; text-align: left; font-weight: bold" appendTo="@(body)">
+                <h:form id="fmSistema" enctype="multipart/form-data" >
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="1" style="font-size: 12px; text-align: left; font-weight: bold">
+                            <h:outputLabel for="descSist" value="Descripción:"/>
+                            <p:inputText id="descSist" value="" autocomplete="off" style="width: 200px">
+                               
+                            </p:inputText>
+                            <h:outputLabel for="estadoSist" value="Estado:"/>
+                            <p:inputText id="estadoSist"  autocomplete="off" style="width: 200px">
+   
+                            </p:inputText>
+                            <h:outputLabel for="siglas" value="Siglas:"/>
+                            <p:inputText id="siglas" value="" autocomplete="off" style="width: 200px">
+<!--                                <p:ajax event="keyup" update=":formPrincipal:fmSublinea:btnGrabarSub" listener="#{catalogoInvestigacionController.validarVaciosSubP1()}"/>-->
+                            </p:inputText>
+                            <h:outputLabel for="orden" value="Orden Presentación:"/>
+                            <p:inputText id="orden" value="" autocomplete="off" style="width: 200px">
+<!--                                <p:ajax event="keyup" update=":formPrincipal:fmSublinea:btnGrabarSub" listener="#{catalogoInvestigacionController.validarVaciosSubP1()}"/>-->
+                            </p:inputText>
+                        </h:panelGrid>
+                        <p:spacer height="5"></p:spacer>
+                        <h:panelGroup>
+                            <center>
+                                
+                                
+                                <p:commandButton id="btnGrabarSist" value="Grabar" icon="ui-icon-locked" style="margin: 0"
+                                                 onclick="PF('dialogNewSistema').hide();" disabled="#{mttoSeguridadesController.validaVacios}">
+                                   
+                                </p:commandButton>
+                            </center>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </h:form>  
+            </p:dialog>
+</ui:composition>
+
+
+
+   
+
+            
+                       
+

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+                   <p:tabView>
+                        <p:tab title="Beneficiarios">
+                            <p:panel id="panelFiltroBusqueda" header="Beneficiarios de Retenciones Judiciales" style="font-size: 14px;text-align: left ; font-weight: bold">
+                                <h:panelGrid id="filtro" columns="3">
+
+                                    <h:outputLabel value="Filtro"/>
+                                    <h:inputText value="#{beneficiarioControler.filtro}"/>                   
+                                    <p:commandButton value="Encontrar"
+                                                     process="@form"
+                                                     update="panelResultado"
+                                                     action="#{beneficiarioControler.obtenerBeneficiarioPorNombre}"/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:spacer height="10px"/>
+
+                            <p:panel id="panelResultado"
+                                     header="Resultados">
+                                <f:facet name="actions">
+                                    <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                                   action="#{beneficiarioControler.nuevo}"
+                                                   update="@form">
+                                        <h:outputText styleClass="ui-icon ui-icon-circle-plus" />
+                                    </p:commandLink>
+                                </f:facet>
+
+
+
+                                <p:dataTable value="#{beneficiarioControler.findAll}" var="item"
+                                             paginator="true" 
+                                             rows="6"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15,20">
+                                    <p:column headerText="Codigo" width="50" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjId}"/>
+                                    </p:column>
+                                    <p:column headerText="Nombres" width="250" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjNombre}"/>
+                                    </p:column>
+                                    <p:column headerText="Apellidos" width="250" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjApellido}"/>
+                                    </p:column>
+                                    <p:column headerText="N° Cuenta" width="250" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjNumCuenta}"/>
+                                    </p:column>
+                                    <p:column headerText="Tipo" width="100" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjTipo}"/>
+                                    </p:column>
+                                    <p:column headerText="DNI" width="150" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjDni}"/>
+                                    </p:column>
+                                    <p:column headerText="Tipo DNI" width="100" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.brjTipoDni}"/>
+                                    </p:column>
+                                    <p:column headerText="Banco" width="200" style="font-size: 14px;text-align: center ; font-weight: bold">
+                                        <h:outputText value="#{item.cggBanco.banDescripcion}"/>
+                                    </p:column>
+                                    <p:column headerText="Acción">
+                                        <h:panelGrid columns="3" border="0" style="border: hidden">
+                                            <p:commandLink update="@form">
+                                                <h:outputText styleClass="ui-icon ui-icon-pencil" />
+                                                <f:setPropertyActionListener value="true"
+                                                                             target="#{beneficiarioControler.modoEdicion}"/>
+                                                <f:setPropertyActionListener value="#{item}"
+                                                                             target="#{beneficiarioControler.esNuevo}"/>
+                                                <f:setPropertyActionListener value="false"
+                                                                             target="#{beneficiarioControler.esNuevo}"/>
+                                            </p:commandLink>
+                                            <p:spacer width="2px"/>
+                                            <p:commandLink oncomplete="PF('itemDialog').show()" update="@form">
+                                                <f:setPropertyActionListener value="#{beneficiarioControler}" 
+                                                                             target="#{beneficiarioControler.esNuevo}" />
+                                                <h:outputText styleClass="ui-icon ui-icon-trash" />
+                                            </p:commandLink>
+                                        </h:panelGrid>
+
+                                    </p:column>
+                                </p:dataTable>
+
+                            </p:panel>
+                            <p:spacer height="10px"/>
+                            <p:panel id="panelEdicion" header="Datos Beneficiario"
+                                     rendered="#{beneficiarioControler.modoEdicion}">
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="Id"/>
+                                    <h:outputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjId}"
+                                                  rendered="#{not beneficiarioControler.esNuevo}"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjId}"
+                                                 rendered="#{beneficiarioControler.esNuevo}"/>
+                                    <h:outputText value="Nombres"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjNombre}"
+                                                 required="true"
+                                                 requiredMessage="El nombre es obligatorio"/>
+                                    <h:outputText value="Apellidos"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjApellido}"
+                                                 required="true"
+                                                 requiredMessage="El Apellido es obligatorio"/>
+                                    <h:outputText value="Cuenta"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjNumCuenta}"
+                                                 required="true"
+                                                 requiredMessage="El Número de Cta. es obligatorio"/>
+                                    <h:outputText value="Banco"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.cggBanco.banDescripcion}"
+                                                 required="true"
+                                                 requiredMessage="El Banco es obligatorio"/>
+                                    <h:outputText value="DNI"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjDni}"
+                                                 required="true"
+                                                 requiredMessage="El DNI es obligatorio"/>
+                                    <h:outputText value="Tipo DNI"/>
+                                    <h:inputText value="#{beneficiarioControler.apnBeneficRetJudicial.brjTipoDni}"
+                                                 required="true"
+                                                 requiredMessage="El DNI es obligatorio"/>
+                                </h:panelGrid>
+
+                                <p:commandButton value="Guardar" style="margin: 0; font-size: 12px; float: bottom; font-weight: bold"
+                                                 process="panelEdicion"
+                                                 update="@form"
+                                                 action="#{beneficiarioControler.guardar}"/>
+                                <p:commandButton value="Cancelar" style="margin: 0; font-size: 12px; float: bottom; font-weight: bold"
+                                                 action="#{beneficiarioControler.cancelar}"
+                                                 process="@this"
+                                                 update="@form"/>
+
+                            </p:panel>
+                        </p:tab>
+
+                    </p:tabView>
+
+    </body>
+</html>

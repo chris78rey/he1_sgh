@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../plantillas/template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formPrincipal">
+                    <p:panel id ="panelBase" header="Mantenimiento de Parametros" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+                        <p:tabView  id="tab1" orientation="top" style="font-size: 12px" activeIndex="" cache="false" >
+                            <!--<p:ajax event="tabChange" listener="" update=":tab1"/>-->
+                            <p:tab id="tab1" title="" >
+                                <p:outputPanel>
+                                    <!--                                <ui:include src="/pages/fichaOdon6PermaNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6PermaEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab2" title="Impuesto a la Renta" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab3" title="Descuentos del SRI" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab4" title="Descuentos por Discapacidad" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab5" title="Parametros de Cálculo" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+
+                            <p:tab id="tab6" title="Rubros de Sueldos" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>
+                            <p:tab id="tab7" title="Rubros de Sueldos" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>   
+                            <p:tab id="tab8" title="Tipos de Descuentos" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>  
+                            <p:tab id="tab9" title="Tipos de Procesos de Sueldos" >
+                                <p:outputPanel>
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>-->
+                                </p:outputPanel>
+                                <p:outputPanel rendered="">
+                                    <!--                                    <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>-->
+                                </p:outputPanel>
+                            </p:tab>         
+
+                        </p:tabView>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
